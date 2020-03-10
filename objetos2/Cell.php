@@ -42,7 +42,6 @@ class Cell
 
     public function cantidadDeVecinos($cells)
     {
-
         $cantidadDeVecinos = 0;
         foreach ($cells as $cell) {
             if ($this->esVecino($cell)) {
@@ -67,7 +66,7 @@ class Cell
     {
         $vecinos = $this->generarVecinos();
         foreach ($vecinos as $vecino) {
-            if ($vecino->cantidadDeVecinos($aGame->getAliveCells()) == 3) {
+            if (!$aGame->estaViva($vecino) && $vecino->cantidadDeVecinos($aGame->getAliveCells()) == 3) {
                 $aGame->addAliveCell($vecino);
             }
         }

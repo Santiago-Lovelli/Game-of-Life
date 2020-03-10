@@ -20,18 +20,18 @@ class GameOfLifeTest extends TestCase
 
     public function testSiTieneAlMenosDeDosVecinosVive()
     {
-        $pointOne = new Cell(1, 1);
-        $pointTwo = new Cell(1, 2);
-        $pointThree = new Cell(0, 1);
-        $aliveCells[] = $pointOne;
+        $pointOne = new Cell(0, 0);
+        $pointTwo = new Cell(0, 1);
+        $pointThree = new Cell(0, 2);
         $aliveCells[] = $pointTwo;
+        $aliveCells[] = $pointOne;
         $aliveCells[] = $pointThree;
         $game = new GameOfLife($aliveCells);
         $game->nextGeneration();
-        $this->assertTrue($game->sizeOfCells() == 4);
+        $this->assertTrue($game->sizeOfCells() == 1);
     }
 
-    public function testMataLosQueDebe()
+    public function testMataLosQueDebeYGeneraUno()
     {
         $pointOne = new Cell(1, 1);
         $pointTwo = new Cell(1, 2);
@@ -52,21 +52,19 @@ class GameOfLifeTest extends TestCase
 
     public function testConDosOTresVivosVive()
     {
-        $pointOne = new Cell(1, 1);
-        $pointTwo = new Cell(1, 2);
-        $pointThree = new Cell(0, 1);
+        $pointOne = new Cell(0, 1);
+        $pointTwo = new Cell(0, 0);
+        $pointThree = new Cell(0, 2);
         $pointFour = new Cell(5, 5);
         $pointFive = new Cell(6, 5);
-        $pointSix = new Cell(5, 6);
         $aliveCells[] = $pointOne;
         $aliveCells[] = $pointTwo;
         $aliveCells[] = $pointThree;
         $aliveCells[] = $pointFour;
         $aliveCells[] = $pointFive;
-        $aliveCells[] = $pointSix;
         $game = new GameOfLife($aliveCells);
         $game->nextGeneration();
-        $this->assertTrue($game->sizeOfCells() == 8);
+        $this->assertTrue($game->sizeOfCells() == 1);
     }
 
     //Any live cell with more than three live neighbours dies, as if by overpopulation.
@@ -122,7 +120,6 @@ class GameOfLifeTest extends TestCase
         $aliveCells[] = $pointThree;
         $game = new GameOfLife($aliveCells);
         $game->nextGeneration();
-        var_dump($game->sizeOfCells());
         $this->assertTrue($game->sizeOfCells() == 4);
     }
 }

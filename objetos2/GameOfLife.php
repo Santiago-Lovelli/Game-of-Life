@@ -13,7 +13,7 @@ class GameOfLife
     {
         $total = $this->sizeOfCells();
         for ($i = 0; $i < $total; $i++) {
-            if (isset($this->aliveCells[$i]) && !$this->aliveCells[$i]->vive($this->aliveCells)) {
+            if (!$this->aliveCells[$i]->vive($this->aliveCells)) {
                 unset($this->aliveCells[$i]);
             }
         }
@@ -35,6 +35,20 @@ class GameOfLife
     public function sizeOfCells()
     {
         return count($this->aliveCells);
+    }
+    public function estaViva($aCell)
+    {
+        $perteneceA = function ($unaLista) use ($aCell) {
+            foreach ($unaLista as $unElemento) {
+                $distanciaEnX = $unElemento->getX() - $aCell->getX();
+                $distanciaEnY = $unElemento->getY() - $aCell->getY();
+                if ($distanciaEnX == 0 && $distanciaEnY == 0) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        return $perteneceA($this->aliveCells);
     }
 
 }
