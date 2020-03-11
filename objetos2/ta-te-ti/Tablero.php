@@ -51,12 +51,12 @@ class Tablero
 
     public function terminoElJuego()
     {
-        return $this->ganaVertical() || $this->ganaHorizontal();
+        return $this->ganaVertical() || $this->ganaHorizontal() || $this->ganaDiagonal();
     }
 
     public function ganaVertical()
     {
-        return $this->verticales(0) || $this->verticales(1) || $this->verticales(2);
+        return $this->verticales(0) || $this->verticales(3) || $this->verticales(6);
     }
 
     public function ganaHorizontal()
@@ -66,7 +66,7 @@ class Tablero
 
     public function ganaDiagonal()
     {
-        return $this->diagonalUno(0) || $this->diagonalUno(1) || $this->diagonalUno(2);
+        return $this->diagonalUno() || $this->diagonalDos();
     }
 
     public function verticales($valor)
@@ -83,9 +83,13 @@ class Tablero
         $this->posiciones[6 + $valor]->getValor();
     }
 
-    public function diagonalUno($valor)
+    public function diagonalUno()
     {
-        return ($this->posiciones[4 * $valor]->getValor() == $this->posiciones[4 * $valor]->getValor()) ==
-        $this->posiciones[4 * $valor]->getValor();
+        return ($this->posiciones[0]->getValor() == $this->posiciones[4]->getValor()) == $this->posiciones[8]->getValor();
+    }
+
+    public function diagonalDos($valor)
+    {
+        return ($this->posiciones[2]->getValor() == $this->posiciones[4]->getValor()) == $this->posiciones[6]->getValor();
     }
 }

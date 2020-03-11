@@ -11,14 +11,40 @@ class GameOfLife
 
     public function nextGeneration()
     {
-        $total = $this->sizeOfCells();
-        for ($i = 0; $i < $total; $i++) {
-            if (!$this->aliveCells[$i]->vive($this->aliveCells)) {
-                unset($this->aliveCells[$i]);
-            }
+        $this->matar();
+        $this->reproducir();
+    }
+
+    public function matar()
+    {
+        $noVive = function ($cell) {
+            return !$cell->vive($this->aliveCells);
+        };
+
+        $celulasParaMatar = array_filter($this->aliveCells, $noVive);
+
+        foreach ($celulasParaMatar as $key => $cell) {
+            unset($this->aliveCells[$key]);
         }
-        foreach ($this->aliveCells as $cell) {
-            $cell->generarCelula($this);
+    }
+
+    public function reproducir()
+    {
+        $celulasIniciales = $this->getAliveCells();
+
+        foreach ($celulasIniciales as $cell) {
+
+            $porVivir = function ($vecino) use ($celulasIniciales) {
+                return !$this->estaViva($vecino) && $vecino->cantidadDeVecinos($celulasIniciales) == 3;
+            };
+
+            $vecinoDeLaCelula = $cell->generarVecinos();
+
+            $celulasParaAgregar = array_filter($vecinoDeLaCelula, $porVivir);
+
+            foreach ($celulasParaAgregar as $aAgregar) {
+                $this->addAliveCell($aAgregar);
+            }
         }
     }
 
@@ -36,19 +62,14 @@ class GameOfLife
     {
         return count($this->aliveCells);
     }
+
     public function estaViva($aCell)
     {
-        $perteneceA = function ($unaLista) use ($aCell) {
-            foreach ($unaLista as $unElemento) {
-                $distanciaEnX = $unElemento->getX() - $aCell->getX();
-                $distanciaEnY = $unElemento->getY() - $aCell->getY();
-                if ($distanciaEnX == 0 && $distanciaEnY == 0) {
-                    return true;
-                }
-            }
-            return false;
+        $perteneceA = function ($unElemento) use ($aCell) {
+            return $unElemento->getX() == $aCell->getX() && $unElemento->getY() == $aCell->getY();
         };
-        return $perteneceA($this->aliveCells);
+        $vivos = array_filter($this->aliveCells, $perteneceA);
+        return count($vivos) == 1;
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
-require_once '/home/santiago/Escritorio/Curso/objetos2/GameOfLife.php';
-require_once '/home/santiago/Escritorio/Curso/objetos2/Cell.php';
+require_once '/home/santiago/Escritorio/Curso/objetos2/Game-Of-Life/GameOfLife.php';
+require_once '/home/santiago/Escritorio/Curso/objetos2/Game-Of-Life/Cell.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -68,37 +68,30 @@ class GameOfLifeTest extends TestCase
     }
 
     //Any live cell with more than three live neighbours dies, as if by overpopulation.
+
     public function testConCuatroMuere()
     {
-        $pointOne = new Cell(1, 1);
-        $pointTwo = new Cell(1, 2);
-        $pointThree = new Cell(0, 1);
-        $pointSeven = new Cell(0, 2);
-        $pointEight = new Cell(2, 1);
-        $pointFour = new Cell(5, 5);
-        $pointFive = new Cell(6, 5);
-        $pointSix = new Cell(5, 6);
+        $pointOne = new Cell(0, 0);
+        $pointTwo = new Cell(1, 0);
+        $pointThree = new Cell(2, 0);
+        $pointFour = new Cell(1, 1);
+        $pointFive = new Cell(2, 1);
         $aliveCells[] = $pointOne;
         $aliveCells[] = $pointTwo;
         $aliveCells[] = $pointThree;
         $aliveCells[] = $pointFour;
         $aliveCells[] = $pointFive;
-        $aliveCells[] = $pointSix;
-        $aliveCells[] = $pointSeven;
-        $aliveCells[] = $pointEight;
         $game = new GameOfLife($aliveCells);
         $game->nextGeneration();
-        $this->assertTrue($game->sizeOfCells() == 8);
+        $this->assertTrue($game->sizeOfCells() == 5);
     }
 
     public function testMuerenTodes()
     {
-        $pointThree = new Cell(1, 1);
         $pointOne = new Cell(0, 0);
         $pointTwo = new Cell(0, 2);
         $pointFour = new Cell(2, 1);
         $pointFive = new Cell(2, 2);
-        $aliveCells[] = $pointThree;
         $aliveCells[] = $pointOne;
         $aliveCells[] = $pointTwo;
         $aliveCells[] = $pointFour;

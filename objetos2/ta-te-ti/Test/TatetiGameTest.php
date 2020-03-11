@@ -119,7 +119,7 @@ class TatetiGameTest extends TestCase
         $this->assertTrue($game->gameOver());
     }
 
-    public function testGanaXDiagonal()
+    public function testGanaXDiagonalUno()
     {
         $jugadorX = new Jugador('x');
         $jugadorO = new Jugador('o');
@@ -128,11 +128,29 @@ class TatetiGameTest extends TestCase
         $game->juegaX($posicionX);
         $posicionO = new Posicion(0, 1);
         $game->juegaO($posicionO);
-        $posicionXDos = new Posicion(1, 0);
+        $posicionXDos = new Posicion(1, 1);
         $game->juegaX($posicionXDos);
         $posicionODos = new Posicion(0, 2);
         $game->juegaO($posicionODos);
-        $posicionXTres = new Posicion(2, 0);
+        $posicionXTres = new Posicion(2, 2);
+        $game->juegaX($posicionXTres);
+        $this->assertTrue($game->gameOver());
+    }
+
+    public function testGanaXDiagonalDos()
+    {
+        $jugadorX = new Jugador('x');
+        $jugadorO = new Jugador('o');
+        $game = new TatetiGame($jugadorX, $jugadorO);
+        $posicionX = new Posicion(2, 0);
+        $game->juegaX($posicionX);
+        $posicionO = new Posicion(0, 1);
+        $game->juegaO($posicionO);
+        $posicionXDos = new Posicion(1, 1);
+        $game->juegaX($posicionXDos);
+        $posicionODos = new Posicion(1, 2);
+        $game->juegaO($posicionODos);
+        $posicionXTres = new Posicion(0, 2);
         $game->juegaX($posicionXTres);
         $this->assertTrue($game->gameOver());
     }

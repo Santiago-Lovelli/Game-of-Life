@@ -42,13 +42,12 @@ class Cell
 
     public function cantidadDeVecinos($cells)
     {
-        $cantidadDeVecinos = 0;
-        foreach ($cells as $cell) {
-            if ($this->esVecino($cell)) {
-                $cantidadDeVecinos = $cantidadDeVecinos + 1;
-            }
-        }
-        return $cantidadDeVecinos;
+        $esUnVecino = function ($vecino) {
+            return $this->esVecino($vecino);
+        };
+
+        $sonVecinos = array_filter($cells, $esUnVecino);
+        return count($sonVecinos);
     }
 
     public function esVecino($cell)
@@ -60,17 +59,6 @@ class Cell
             && ($distanciaEnY >= -1 && $distanciaEnY <= 1)
             && ($distanciaEnX != 0 || $distanciaEnY != 0)
         );
-    }
-
-    public function generarCelula($aGame)
-    {
-        $vecinos = $this->generarVecinos();
-        foreach ($vecinos as $vecino) {
-            if (!$aGame->estaViva($vecino) && $vecino->cantidadDeVecinos($aGame->getAliveCells()) == 3) {
-                $aGame->addAliveCell($vecino);
-            }
-        }
-
     }
 
     public function generarVecinos()
