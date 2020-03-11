@@ -10,21 +10,17 @@ class Posicion
     {
         $this->x = $x;
         $this->y = $y;
-        $this->valor = '';
+        $this->valor = new ValorVacio();
     }
 
     public function getValor()
     {
-        return $this->valor;
+        return $this->valor->getValor();
     }
 
     public function setValor($valor)
     {
-        if ($this->valor != '') {
-            throw new Exception('Posicion ya ocupada');
-        }
-
-        $this->valor = $valor;
+        $this->valor = $this->valor->setValor($valor);
     }
 
     public function getX()

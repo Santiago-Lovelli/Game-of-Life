@@ -20,9 +20,9 @@ class TatetiGame
         return $this->tablero->estaVacio();
     }
 
-    public function turnoDeJugadorX()
+    public function esMiTurno($unJugador)
     {
-        return $this->turnoDe->getValorDeJuego() == 'x';
+        return $this->turnoDe->getValorDeJuego() == $unJugador->getValorDeJuego();
     }
 
     public function turnoDeJugadorO()
@@ -32,24 +32,22 @@ class TatetiGame
 
     public function juegaX($unaPosicion)
     {
-        if (!$this->turnoDeJugadorX()) {
-            throw new Exception('No es tu turno');
-        }
-        $this->jugar($unaPosicion);
+        $this->jugar($unaPosicion, $this->jugadorX);
+        $this->setTurnoDe($this->jugadorO);
     }
 
     public function juegaO($unaPosicion)
     {
-        if (!$this->turnoDeJugadorO()) {
-            throw new Exception('No es tu turno');
-        }
-        $this->jugar($unaPosicion);
+        $this->jugar($unaPosicion, $this->jugadorO);
+        $this->setTurnoDe($this->jugadorX);
     }
 
-    public function jugar($posicion)
+    public function jugar($posicion, $unJugador)
     {
-        $this->tablero->ocupar($posicion, $this->turnoDe->getValorDeJuego());
-        $this->setTurnoDe($this->siguienteJugardor());
+        if (!$this->esMiTurno($unJugador)) {
+            throw new Exception('No es tu turno');
+        }
+        $this->tablero->ocupar($posicion, $unJugador->getValorDeJuego());
     }
 
     public function setTurnoDe($turnoDe)
@@ -57,15 +55,6 @@ class TatetiGame
         $this->turnoDe = $turnoDe;
 
         return $this;
-    }
-
-    public function siguienteJugardor()
-    {
-        if ($this->turnoDe->getValorDeJuego() == 'x') {
-            return $this->jugadorO;
-        } else {
-            return $this->jugadorX;
-        }
     }
 
     public function getValorDePosicion($posicion)

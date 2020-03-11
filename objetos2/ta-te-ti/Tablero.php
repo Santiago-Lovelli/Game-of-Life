@@ -6,6 +6,7 @@ class Tablero
 
     public function __construct()
     {
+        $this->posiciones[0] = new PosicionNula();
         for ($i = 0; $i < 3; $i++) {
             for ($j = 0; $j < 3; $j++) {
                 $this->posiciones[] = new Posicion($i, $j);
@@ -15,29 +16,24 @@ class Tablero
 
     public function estaVacio()
     {
-        $vacio = function () {
-            $ocupados = 0;
-            foreach ($this->posiciones as $unPosicion) {
-                if ($unPosicion->getValor() != '') {
-                    $ocupados = $ocupados + 1;
-                }
-            }
-            return $ocupados;
+        $noEstaOcupada = function ($unPosicion) {
+            return $unPosicion->getValor() != '';
         };
-        return $vacio() == 0;
+        return count(array_filter($this->posiciones, $noEstaOcupada) == 0);
     }
 
-    public function ocupar($posicion, $valorDeJuego)
+    public function ocupar($unaPosicion, $valorDeJuego)
     {
-        if ($posicion->getX() < 0 || $posicion->getX() > 2 || $posicion->getY() < 0 || $posicion->getY() > 2) {
-            throw new Exception('Posicion fuera del tablero');
-        }
-        for ($i = 0; $i < 9; $i++) {
-            if ($this->posiciones[$i]->getX() == $posicion->getX() && $this->posiciones[$i]->getY() == $posicion->getY()) {
-                $this->posiciones[$i]->setValor($valorDeJuego);
-                break;
-            }
-        }
+        $esEsta = function ($posicion) use ($unaPosicion) {
+            return $posicion->getX() == $unaPosicion->getX() && $posicion->getY() == $unaPosicion->getY();
+        };
+
+        $findKey = function () use ($esEsta) {
+            return key(array_filter($this->posiciones, $esEsta));
+        };
+
+        $keyAOcupar = $findKey();
+
     }
 
     public function valorEn($posicion)
@@ -88,7 +84,7 @@ class Tablero
         return ($this->posiciones[0]->getValor() == $this->posiciones[4]->getValor()) == $this->posiciones[8]->getValor();
     }
 
-    public function diagonalDos($valor)
+    public function diagonalDos()
     {
         return ($this->posiciones[2]->getValor() == $this->posiciones[4]->getValor()) == $this->posiciones[6]->getValor();
     }
