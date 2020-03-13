@@ -25,4 +25,8 @@ class MyPoint
     {
         return $this->$y;
     }
+    public function estaEnTablero()
+    {
+        return true;
+    }
 }

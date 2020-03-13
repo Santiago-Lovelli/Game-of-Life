@@ -11,7 +11,7 @@ class EstadoOcupada implements Estado
 
     public function getValor()
     {
-        return $this->valor;
+        return $this->valor->getNombre();
     }
 
     public function setValor($valor, $unaCasilla)

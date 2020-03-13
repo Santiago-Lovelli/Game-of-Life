@@ -9,6 +9,11 @@ class Casilla
         $this->estado = new EstadoLibre();
     }
 
+    public function ocuparPor($unJugador)
+    {
+        $this->estado->setValor($unJugador, $this);
+    }
+
     public function getEstado()
     {
         return $this->estado;
@@ -21,9 +26,8 @@ class Casilla
 
     public function cambiarEstado($valor)
     {
-        $estadoNuevo = new EstadoOcupado($valor);
+        $estadoNuevo = new EstadoOcupada($valor);
         $this->setEstado($estadoNuevo);
-        //$this->setEstado(new EstadoOcupado($valor));
     }
 
     public function soyUnEstadoOcupado()
@@ -34,5 +38,10 @@ class Casilla
     public function libre()
     {
         return $this->estado->vacio();
+    }
+
+    public function valor()
+    {
+        return $this->estado->getValor();
     }
 }

@@ -1,19 +1,19 @@
 <?php
 
-class TurnoGameOver
+class TurnoEmpate
 {
     public function para($unJuego)
     {
-        return !$unJuego->empatado() && $unJuego->terminado();
+        return $unJuego->empatado();
     }
 
     public function puedeJugarX($unTateti)
     {
-        return $unTateti->finDelJuego();
+        return $unTateti->empate();
     }
 
     public function puedeJugarO($unTateti)
     {
-        return $unTateti->finDelJuego();
+        return $unTateti->empate();
     }
 }

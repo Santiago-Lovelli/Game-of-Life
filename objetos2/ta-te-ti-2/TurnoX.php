@@ -1,7 +1,12 @@
 <?php
 
-class TurnoX implements Turno
+class TurnoX
 {
+    public function para($unJuego)
+    {
+        return $unJuego->jugadorPorJugar()->getNombre() == 'x' && !$unJuego->terminado() && !$unJuego->empatado();
+    }
+
     public function puedeJugarX($unTateti)
     {
         return true;
