@@ -333,6 +333,8 @@ class TatetiGameTest extends TestCase
         } catch (Exception $e) {
             $this->assertTrue($e->getMessage() == 'Empate');
             $this->assertTrue($game->empatado());
+            $this->assertTrue(!$game->ganadorX());
+            $this->assertTrue(!$game->ganadorO());
         }
     }
 }
